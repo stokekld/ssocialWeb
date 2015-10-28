@@ -6,4 +6,4 @@ angular
 				templateUrl: './angular/views/login.html'
 			});
 	})
-	.controller('loginController', ['valObj', loginController]);
+	.controller('loginController', [ 'dataValidation', 'requester', loginController]);

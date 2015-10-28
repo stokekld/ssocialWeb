@@ -1,36 +1,30 @@
 angular
-	.module('formValidationModule', [])
-	.factory('valObj', function(){
-		return {
-			fields: {}
-		};
-	})
-	.directive('valReq', function(valObj){
+	.module('formValidationModule', ['ngToast'])
+	.factory('dataValidation', function(ngToast){
+		
+		var obj = {
+			val: function(data){
 
-		return {
-			require: 'ngModel',
-			link: function(scope, elm, attrs, ctrl)
-			{
-				ctrl.$validators.valReq = function(modelValue, viewValue)
+				for (field in data)
 				{
-					var name = attrs.name;
-					valObj.fields[name] = {};
+					var val = new validation(data[field], ngToast);
 
-					if (ctrl.$isEmpty(modelValue))
+					if ( !val.validate() )
 					{
-
-						valObj.fields[name] = {
-							msg: "El campo " + attrs.name + " es requerido."
-						};
+						ngToast.create({
+							className: 'danger',
+							content: val.getMsg(),
+							dismissButton: true
+						});
 						return false;
 					}
-
-					delete valObj.fields[name];
-					return true;
 				}
+
+				return true;
+
 			}
 		};
 
-		
+		return obj;
 
 	});
