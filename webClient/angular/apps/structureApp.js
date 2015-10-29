@@ -1,9 +1,9 @@
 angular
-	.module('structure', ['ngRoute', 'formValidationModule', 'requestModule'])
+	.module('structure', ['ngRoute', 'directiveLoadingModule', 'formValidationModule', 'requestModule'])
 	.config(function($routeProvider){
 		$routeProvider
 			.when('/',{
 				templateUrl: './angular/views/login.html'
 			});
 	})
-	.controller('loginController', [ 'dataValidation', 'requester', loginController]);
+	.controller('loginController', [ 'dataValidation', '$http', loginController]);

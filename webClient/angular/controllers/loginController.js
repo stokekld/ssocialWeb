@@ -1,4 +1,4 @@
-function loginController(dataVal, req)
+function loginController(dataVal, $http)
 {
 	this.formData = {
 		user: {
@@ -19,7 +19,7 @@ function loginController(dataVal, req)
 		}
 	};
 
-	this.sendData = function(){
+	this.sendData = function(form){
 		var validation = dataVal.val(this.formData);
 
 		if (!validation)
@@ -32,8 +32,9 @@ function loginController(dataVal, req)
 			obj[field] = this.formData[field].value;
 		}
 
-		console.log(obj);
+		console.log("form");
+		console.log(angular.element(form.target));
 
-		req.request('post', '/logIn', obj);
+		$http.post('http://ssocial.app/logIn', obj, { element: angular.element(form.target) });
 	};
 };

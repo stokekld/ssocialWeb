@@ -1,28 +1,44 @@
 angular
 	.module('requestModule', ['ngToast'])
-	.factory('requester', function($http, ngToast){
+	.config(['$httpProvider', function($httpProvider){
 
-		var host = "http://ssocial.app";
+		$httpProvider.interceptors.push(function($rootScope, $q, ngToast){
+			return {
+				'request': function(config){
 
-		var obj = {
-			token: "",
-			request: function(method, url, data){
-				$http[method](host + url, data).then(function(response){
+					console.log(config);
+
+					$rootScope.loadingOn();
+
+					return config;
+				},
+				'response': function(response){
+
 					console.log(response);
 
-				}, function(res){
-					if (res.data.error)
+					$rootScope.loadingOff();
+
+					if ( angular.isDefined( response.data.token ) )
+						$httpProvider.defaults.headers.common = { 'Authorization':response.data.token };
+
+					return response;
+				},
+				'responseError': function(rejection){
+
+					console.log(rejection);
+
+					$rootScope.loadingOff();
+
+					if ( angular.isDefined( rejection.data.message ) )
 						ngToast.create({
 							className: 'danger',
-							content: res.data.message,
+							content: rejection.data.message,
 							dismissButton: true
 						});
 
+					return $q.reject(rejection);
+				}
+			};
+		});
 
-				});
-			}
-		};
-
-		return obj;
-
-	});
+	}]);
