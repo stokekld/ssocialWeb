@@ -38,6 +38,47 @@ angular
 
 		};
 
+		$rootScope.loadingOnElement = function(elmt){
+
+			var tag = elmt.prop('tagName');
+
+			if (tag === 'FORM')
+			{
+				var inputs = elmt.find('input'); 
+
+
+				for (var i = 0; i < inputs.length; i++)
+				{
+					var input = angular.element(inputs[i]);
+
+					if ( input.attr('type') === 'submit' )
+						input.button('loading');
+					else
+						input.attr('readonly', true);
+				}
+			}
+		};
+
+		$rootScope.loadingOffElement = function(elmt){
+			var tag = elmt.prop('tagName');
+
+			if (tag === 'FORM')
+			{
+				var inputs = elmt.find('input'); 
+
+
+				for (var i = 0; i < inputs.length; i++)
+				{
+					var input = angular.element(inputs[i]);
+
+					if ( input.attr('type') === 'submit' )
+						input.button('reset');
+					else
+						input.attr('readonly', false);
+				}
+			}
+		};
+
 	})
 	.directive('loadingElemt', function($rootScope){
 

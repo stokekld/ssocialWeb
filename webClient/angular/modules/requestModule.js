@@ -6,7 +6,8 @@ angular
 			return {
 				'request': function(config){
 
-					console.log(config);
+					if ( angular.isDefined( config.element ) )
+						$rootScope.loadingOnElement( config.element )
 
 					$rootScope.loadingOn();
 
@@ -14,7 +15,8 @@ angular
 				},
 				'response': function(response){
 
-					console.log(response);
+					if ( angular.isDefined( response.config.element ) )
+						$rootScope.loadingOffElement( response.config.element )
 
 					$rootScope.loadingOff();
 
@@ -25,7 +27,8 @@ angular
 				},
 				'responseError': function(rejection){
 
-					console.log(rejection);
+					if ( angular.isDefined( rejection.config.element ) )
+						$rootScope.loadingOffElement( rejection.config.element )
 
 					$rootScope.loadingOff();
 

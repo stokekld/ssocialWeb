@@ -1,4 +1,4 @@
-function loginController(dataVal, $http)
+function loginController(dataVal, $http, $location)
 {
 	this.formData = {
 		user: {
@@ -32,9 +32,8 @@ function loginController(dataVal, $http)
 			obj[field] = this.formData[field].value;
 		}
 
-		console.log("form");
-		console.log(angular.element(form.target));
-
-		$http.post('http://ssocial.app/logIn', obj, { element: angular.element(form.target) });
+		$http.post('https://ssocial.app/logIn', obj, { element: angular.element(form.target) }).then(function(){
+			$location.path("/");
+		});
 	};
 };
