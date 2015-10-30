@@ -1,30 +1,35 @@
 angular
 	.module('formValidationModule', ['ngToast'])
-	.factory('dataValidation', function(ngToast){
+	.factory('formData', function(ngToast){
 		
 		var obj = {
-			val: function(data){
+			handlerErrors: function($errors, $form){
 
-				for (field in data)
-				{
-					var val = new validation(data[field], ngToast);
+				var firstTypeError = $errors[ Object.keys($errors)[0] ];
+				var firstField = firstTypeError[0];
+				var error = Object.keys( firstField.$error )[0];
+				var msg = "";
 
-					if ( !val.validate() )
-					{
-						ngToast.create({
-							className: 'danger',
-							content: val.getMsg(),
-							dismissButton: true
-						});
-						return false;
-					}
-				}
 
-				return true;
+				if ( error === 'required' )
+					msg = "El campo " + firstField.$name + " es requerido.";
+				else if ( error === 'minlength' )
+					msg = "El campo " + firstField.$name + " admite al menos " + $form.find('input[name="' + firstField.$name + '"]').attr('minlength') + " caracteres";
+				else if ( error === 'pattern' )
+					msg = "El campo " + firstField.$name + " no tiene el patron correcto.";
+				else
+					console.log(error);
 
+				ngToast.create({
+					className: 'danger',
+					content: msg,
+					dismissButton: true
+				});
 			}
 		};
 
 		return obj;
 
 	});
+
+	

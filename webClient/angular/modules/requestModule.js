@@ -21,7 +21,11 @@ angular
 					$rootScope.loadingOff();
 
 					if ( angular.isDefined( response.data.token ) )
-						$httpProvider.defaults.headers.common = { 'Authorization':response.data.token };
+					{
+						sessionStorage.ssocialT = response.data.token;
+						$httpProvider.defaults.headers.common = { 'Authorization':sessionStorage.ssocialT };
+					}
+
 
 					return response;
 				},

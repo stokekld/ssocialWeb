@@ -1,39 +1,22 @@
-function loginController(dataVal, $http, $location)
+function loginController(formData, $http, $location, $rootScope)
 {
-	this.formData = {
-		user: {
-			name: "Usuario",
-			formName: "user",
-			value: "",
-			validations: [
-				'req'
-			]
-		},
-		password: {
-			name: "Password",
-			formName: "password",
-			value: "",
-			validations: [
-				'req'
-			]
-		}
-	};
+	this.formData = {};
 
-	this.sendData = function(form){
-		var validation = dataVal.val(this.formData);
+	this.sendData = function(form, $event){
 
-		if (!validation)
-			return false;
-
-		var obj = {};
-
-		for (field in this.formData)
+		if (form.$invalid)
 		{
-			obj[field] = this.formData[field].value;
+			$form = angular.element($event.target);
+			formData.handlerErrors(form.$error, $form);
+			return;
 		}
 
-		$http.post('https://ssocial.app/logIn', obj, { element: angular.element(form.target) }).then(function(){
+
+		$http.post('https://ssocial.app/logIn', this.formData, { element: angular.element($event.target) }).then(function(response){
+
+			sessionStorage.ssocialTU = response.data.type;
 			$location.path("/");
+			
 		});
 	};
 };

@@ -9,4 +9,7 @@ angular
 				templateUrl: './angular/views/principal.html'
 			});
 	})
-	.controller('loginController', [ 'dataValidation', '$http', '$location', loginController]);
+	.controller('loginController', [ 'formData', '$http', '$location', '$rootScope', loginController])
+	.controller('viewController', ['$location', '$rootScope', viewController])
+	.controller('ipController', ['formData', ipController])
+	.controller('tabsAdminController', tabsAdminController);

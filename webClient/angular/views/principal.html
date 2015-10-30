@@ -1,1 +1,13 @@
-principal.html
+<div ng-controller="viewController as vwCtrl">
+
+
+	<div ng-switch on="'{{vwCtrl.view}}'">
+
+		<div ng-switch-when="admin">
+			<div ng-include="'./angular/views/admin.html'"></div>
+		</div>
+
+	</div>
+
+
+</div>
