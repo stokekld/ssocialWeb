@@ -7,11 +7,19 @@
 						<th>Ip</th>
 						<th style="width:1px">
 							<p class="text-right">
-								<button type="button" class="btn btn-info btn-sm" style="margin-bottom: -20px !important;" data-toggle="modal" data-target="#newIp">Nueva</button>
+								<button type="button" class="btn btn-primary btn-sm" style="margin-bottom: -20px !important;" data-toggle="modal" data-target="#newIp">Nueva</button>
 							</p>
 						</th>
 					</tr>
 				</thead>
+				<tbody>
+					<tr ng-repeat="(idArray, ip) in ipCtrl.ips">
+						<td>{{ip.ipp}}</td>
+						<td class="text-center">
+							<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delIp" ng-click="ipCtrl.setIpDelete(ip.id_ipp, ip.ipp, idArray)" title="Eliminar">x</button>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</div>
@@ -26,7 +34,7 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<label for="exampleInputEmail1">Nueva Ip</label>
-							<input type="text" class="form-control" name="Ip" ng-model="formData.ipp" required ng-pattern="/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/">
+							<input type="text" class="form-control" name="Ip" ng-model="ipCtrl.formData.ipp" required ng-pattern="/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -37,4 +45,24 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+
+	<div class="modal fade" id="delIp">
+		<div class="modal-dialog  modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Elimina Ip</h4>
+				</div>
+				<div class="modal-body">
+					¿Desea eliminar la ip {{ ipCtrl.ipToDelete.ipp }}?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button class="btn btn-default" data-loading-text="Enviando..." ng-click="ipCtrl.ipDelete($event)">Enviar</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
 </div>

@@ -11,5 +11,5 @@ angular
 	})
 	.controller('loginController', [ 'formData', '$http', '$location', '$rootScope', loginController])
 	.controller('viewController', ['$location', '$rootScope', viewController])
-	.controller('ipController', ['formData', ipController])
+	.controller('ipController', ['formData', '$http', ipController])
 	.controller('tabsAdminController', tabsAdminController);

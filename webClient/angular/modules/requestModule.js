@@ -2,7 +2,7 @@ angular
 	.module('requestModule', ['ngToast'])
 	.config(['$httpProvider', function($httpProvider){
 
-		$httpProvider.interceptors.push(function($rootScope, $q, ngToast){
+		$httpProvider.interceptors.push(function($rootScope, $q, ngToast, $location){
 			return {
 				'request': function(config){
 
@@ -10,6 +10,11 @@ angular
 						$rootScope.loadingOnElement( config.element )
 
 					$rootScope.loadingOn();
+
+					if ( angular.isDefined( sessionStorage.ssocialT ) )
+						angular.extend(config.headers, {
+							'Authorization':sessionStorage.ssocialT
+						});
 
 					return config;
 				},
@@ -21,10 +26,7 @@ angular
 					$rootScope.loadingOff();
 
 					if ( angular.isDefined( response.data.token ) )
-					{
 						sessionStorage.ssocialT = response.data.token;
-						$httpProvider.defaults.headers.common = { 'Authorization':sessionStorage.ssocialT };
-					}
 
 
 					return response;
@@ -42,6 +44,10 @@ angular
 							content: rejection.data.message,
 							dismissButton: true
 						});
+
+					if (rejection.status === 401 )
+						$location.path("/login");
+
 
 					return $q.reject(rejection);
 				}
