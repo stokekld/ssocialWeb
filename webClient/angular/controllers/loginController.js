@@ -15,6 +15,7 @@ function loginController(formData, $http, $location, $rootScope)
 		$http.post('https://ssocial.app/logIn', this.formData, { element: angular.element($event.target) }).then(function(response){
 
 			sessionStorage.ssocialTU = response.data.type;
+			sessionStorage.auth = true;
 			$location.path("/");
 			
 		});

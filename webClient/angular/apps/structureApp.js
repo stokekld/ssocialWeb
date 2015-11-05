@@ -12,4 +12,6 @@ angular
 	.controller('loginController', [ 'formData', '$http', '$location', '$rootScope', loginController])
 	.controller('viewController', ['$location', '$rootScope', viewController])
 	.controller('ipController', ['formData', '$http', ipController])
-	.controller('tabsAdminController', tabsAdminController);
+	.controller('servicioController', ['formData', '$http', servicioController])
+	.controller('tabsAdminController', tabsAdminController)
+	.controller('navController', ['$location', navController]);

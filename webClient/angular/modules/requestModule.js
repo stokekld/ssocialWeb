@@ -46,7 +46,12 @@ angular
 						});
 
 					if (rejection.status === 401 )
+					{
+						sessionStorage.removeItem('ssocialT');
+						sessionStorage.removeItem('ssocialTU');
+						sessionStorage.removeItem('auth');
 						$location.path("/login");
+					}
 
 
 					return $q.reject(rejection);

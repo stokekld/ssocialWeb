@@ -40,20 +40,19 @@ var ipController = function(formData, $http){
 
 	this.sendIpForm = function(form, $event){
 
-		var modal = angular.element($event.target).parent().parent().parent();
+		var $form = angular.element($event.target);
+		var modal = $form.parent().parent().parent();
 
 		if (form.$invalid)
 		{
-			$form = angular.element($event.target);
 			formData.handlerErrors(form.$error, $form);
 			return;
 		}
 
 		$http.post('https://ssocial.app/ip', this.formData, { element: angular.element($event.target) }).then(function(response){
 
-			console.log(response);
-
 			modal.modal('hide');
+			$form[0].reset();
 
 			var ip = response.data.data;
 

@@ -1,0 +1,158 @@
+<div ng-controller="servicioController as servCtrl">
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>nombre</th>
+						<th>apaterno</th>
+						<th>amaterno</th>
+						<th>semestre</th>
+						<th>carrera</th>
+						<th class="text-center">
+							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#servNew">Nuevo</button>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(idArray, serv) in servCtrl.servs">
+						<td>{{serv.nomServ}}</td>
+						<td>{{serv.apatServ}}</td>
+						<td>{{serv.amatServ}}</td>
+						<td>{{serv.semestreServ}}</td>
+						<td>{{serv.carreraServ}}</td>
+						<td class="text-center">
+							<button type="button" class="btn btn-default btn-xs" >Registros</button>
+							<div ng-if="serv.activoServ == 1" style="display:inline-block">
+								<button type="button" class="btn btn-success btn-xs" ng-click="servCtrl.toggleAct(idArray, serv.idServ, serv.activoServ)">&nbsp;&nbsp;Activo&nbsp;</button>
+							</div>
+							<div ng-if="serv.activoServ == 0" style="display:inline-block">
+								<button type="button" class="btn btn-warning btn-xs" ng-click="servCtrl.toggleAct(idArray, serv.idServ, serv.activoServ)">Inactivo</button>
+							</div>
+							<button type="button" class="btn btn-info btn-xs" title="Actualizar" data-toggle="modal" data-target="#servUpdate" ng-click="servCtrl.setUpdateData(idArray, serv.idServ)"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+							<button type="button" class="btn btn-danger btn-xs" title="Eliminar" data-toggle="modal" data-target="#servDelete" ng-click="servCtrl.setDeleteData(idArray, serv.idServ)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- new -->
+	<div class="modal fade" id="servNew" tabindex="-1" role="dialog" aria-labelledby="servNewLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form name="servNewForm" ng-submit="servCtrl.sendNewServForm(servNewForm, $event)" novalidate autocomplete="off">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="servNewLabel">Nuevo Servicio Social</h4>
+					</div>
+					<div class="modal-body">
+
+						<div class="form-group">
+							<label>Nombre</label>
+							<input type="text" class="form-control" name="Nombre" ng-model="servCtrl.formNewData.nomServ" required>
+						</div>
+						<div class="form-group">
+							<label>Apellido Paterno</label>
+							<input type="text" class="form-control" name="Apellido Paterno" ng-model="servCtrl.formNewData.apatServ" required>
+						</div>
+						<div class="form-group">
+							<label>Apellido Materno</label>
+							<input type="text" class="form-control" name="Apellido Materno" ng-model="servCtrl.formNewData.amatServ" required>
+						</div>
+						<div class="form-group">
+							<label>Semestre</label>
+							<input type="number" class="form-control" name="Semestre" ng-model="servCtrl.formNewData.semestreServ" >
+						</div>
+						<div class="form-group">
+							<label>Carrera</label>
+							<input type="text" class="form-control" name="Carrera" ng-model="servCtrl.formNewData.carreraServ" >
+						</div>
+						<div class="form-group">
+							<label>Usuario</label>
+							<input type="text" class="form-control" name="Usuario" ng-model="servCtrl.formNewData.userServ" required>
+						</div>
+						<div class="form-group">
+							<label>Password</label>
+							<input type="password" class="form-control" name="Password" ng-model="servCtrl.formNewData.passServ" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<input type="submit" class="btn btn-default" value="Enviar" data-loading-text="Enviando...">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- update -->
+	<div class="modal fade" id="servUpdate" tabindex="-1" role="dialog" aria-labelledby="servUpdateLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form name="servUpdateForm" ng-submit="servCtrl.sendUpdateServForm(servUpdateForm, $event)" novalidate autocomplete="off">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="servUpdateLabel">Actualizar Servicio Social</h4>
+					</div>
+					<div class="modal-body">
+
+						<div class="form-group">
+							<label>Nombre</label>
+							<input type="text" class="form-control" name="Nombre" ng-model="servCtrl.formUpdateData.nomServ" required>
+						</div>
+						<div class="form-group">
+							<label>Apellido Paterno</label>
+							<input type="text" class="form-control" name="Apellido Paterno" ng-model="servCtrl.formUpdateData.apatServ" required>
+						</div>
+						<div class="form-group">
+							<label>Apellido Materno</label>
+							<input type="text" class="form-control" name="Apellido Materno" ng-model="servCtrl.formUpdateData.amatServ" required>
+						</div>
+						<div class="form-group">
+							<label>Semestre</label>
+							<input type="number" class="form-control" name="Semestre" ng-model="servCtrl.formUpdateData.semestreServ" >
+						</div>
+						<div class="form-group">
+							<label>Carrera</label>
+							<input type="text" class="form-control" name="Carrera" ng-model="servCtrl.formUpdateData.carreraServ" >
+						</div>
+						<div class="form-group">
+							<label>Usuario</label>
+							<input type="text" class="form-control" name="Usuario" ng-model="servCtrl.formUpdateData.userServ" required>
+						</div>
+						<div class="form-group">
+							<label>Password</label>
+							<input type="password" class="form-control" name="Password" ng-model="servCtrl.formUpdateData.passServ" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<input type="submit" class="btn btn-default" value="Enviar" data-loading-text="Enviando...">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- delete -->
+	<div class="modal fade" id="servDelete" tabindex="-1" role="dialog" aria-labelledby="servDeleteLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="servDeleteLabel">Eliminar Servicio Social</h4>
+	      </div>
+	      <div class="modal-body">
+	        ¿Desea eliminar a {{servCtrl.ServToDelete.name}}?
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	        <input type="submit" class="btn btn-default" value="Enviar" data-loading-text="Enviando..." ng-click="servCtrl.sendDeleteServ($event)">
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+</div>

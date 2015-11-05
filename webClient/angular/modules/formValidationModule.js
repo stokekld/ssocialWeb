@@ -17,6 +17,8 @@ angular
 					msg = "El campo " + firstField.$name + " admite al menos " + $form.find('input[name="' + firstField.$name + '"]').attr('minlength') + " caracteres";
 				else if ( error === 'pattern' )
 					msg = "El campo " + firstField.$name + " no tiene el patron correcto.";
+				else if ( error === 'number' )
+					msg = "El campo " + firstField.$name + " debe ser un numero.";
 				else
 					console.log(error);
 

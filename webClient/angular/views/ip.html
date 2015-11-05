@@ -16,7 +16,7 @@
 					<tr ng-repeat="(idArray, ip) in ipCtrl.ips">
 						<td>{{ip.ipp}}</td>
 						<td class="text-center">
-							<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delIp" ng-click="ipCtrl.setIpDelete(ip.id_ipp, ip.ipp, idArray)" title="Eliminar">x</button>
+							<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delIp" ng-click="ipCtrl.setIpDelete(ip.id_ipp, ip.ipp, idArray)" title="Eliminar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></button>
 						</td>
 					</tr>
 				</tbody>
