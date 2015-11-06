@@ -1,126 +1,117 @@
-var servicioController = function (formData, $http){
+var servicioController = function(formData, $http, $interval) {
 
-	obj = this;
-	this.formNewData = {};
-	this.formUpdateId;
-	this.formUpdateData = {};
-	this.ServToDelete = {
-		name : ""
-	};
-	this.servs = [];
+	var obj = this;
+	this.status;
+	this.stringTime = "--:--:--";
+	this.formData = {};
+	this.timer = new Timer();
+	this.registros = [];
+	this.accumulated = 0;
 
-	this.getServ = function(){
-		$http.get('https://ssocial.app/servicio').then(function(response){
+	this.init = function (){
 
-			var servs = response.data.data; 
+		$http.get('https://ssocial.app/servicio/current/status').then(function(response){
 
-			for ( index in servs )
-				obj.servs.push( servs[index] );
-		});
-	};
+			obj.status = response.data.data.status;
 
-	this.toggleAct = function (idArray, idServ, activoServ){
-
-		var newValue;
-
-		if (activoServ === "1")
-			newValue = "0";
-		else
-			newValue = "1";
-
-		sendData = {
-			activoServ: newValue
-		};
-
-
-		$http.put('https://ssocial.app/servicio/' + idServ, sendData).then(function(response){
-
-			obj.servs[idArray].activoServ = newValue;
+			if (obj.status !== "bootable")
+			{
+				obj.timer.start({precision: 'seconds', startValues: {seconds: response.data.data.seconds}});
+				obj.changeStringTime();
+			}
 
 		});
 
+		$http.get('https://ssocial.app/servicio/current/ownregistros').then(function(response){
+
+			console.log(response);
+			var data = response.data.data;
+
+			for ( index in data )
+			{
+				var registro = data[index];
+				var segundos = (registro.seconds/(60*60))*100;
+				registro.seconds = Math.round( segundos ) / 100;
+				obj.registros.push( data[index] );
+			}
+
+			obj.getAccumulated();
+		});
+
 
 	};
 
-	this.sendNewServForm = function(form, $event){
+	this.start = function(){
+
+		$http.post('https://ssocial.app/servicio/current/inicio').then(function(response){
+
+			obj.timer.start();
+			obj.status = null;
+			obj.changeStringTime();
+				
+
+		});
+
+	};
+
+	this.stop = function(form, $event){
 
 		var $form = angular.element($event.target);
-		
+		var modal = $form.parent().parent().parent();
+
 		if (form.$invalid)
 		{
 			formData.handlerErrors(form.$error, $form);
 			return;
 		}
 
-		this.formNewData.activoServ = 1;
-		var modal = $form.parent().parent().parent();
-
-		$http.post('https://ssocial.app/servicio', this.formNewData, { element: angular.element($event.target) }).then(function(response){
+		$http.post('https://ssocial.app/servicio/current/fin', this.formData, { element: angular.element($event.target) }).then(function(response){
 
 			modal.modal('hide');
 			$form[0].reset();
-			var serv = response.data.data;
-			obj.servs.push( serv );
+			obj.timer.stop();
+			obj.status = "bootable";
+
+			var registro = response.data.data;
+			var segundos = (registro.seconds/(60*60))*100;
+			registro.seconds = Math.round( segundos ) / 100;
+
+			obj.registros.push(response.data.data);
+
+			obj.getAccumulated();
 
 		});
 
 	};
 
-	this.setUpdateData = function(idArray, idServ){
+	this.isBootable = function(){
+		return this.status === "bootable";
+	};
 
-		this.servs[idArray].semestreServ = parseInt(this.servs[idArray].semestreServ);
-		this.formUpdateId = idArray;
-		this.formUpdateData = angular.extend({}, this.servs[idArray]);
+	this.changeStringTime = function(){
+
+		var changer = $interval(function(){
+
+			obj.stringTime = obj.timer.getTimeValues().toString();
+
+		}, 1000);
 
 	};
 
-	this.sendUpdateServForm = function(form, $event){
+	this.getAccumulated = function(){
+		this.accumulated = 0;
+		var sum = 0;
 
-		var $form = angular.element($event.target);
-		var modal = $form.parent().parent().parent();
-		var servOld = this.servs[this.formUpdateId];
-		var servNew = this.formUpdateData;
-		var data = {};
-		
-		if (form.$invalid)
+		for ( index in this.registros )
 		{
-			formData.handlerErrors(form.$error, $form);
-			return;
+			var registro = this.registros[index];
+
+			sum += registro.seconds;
 		}
 
-		
-
-		for ( prop in this.formUpdateData )
-			if ( servNew[prop] !== servOld[prop] )
-				data[prop] = servNew[prop];
-
-		$http.put('https://ssocial.app/servicio/' + this.formUpdateData.idServ, data).then(function(response){
-
-			modal.modal('hide');
-			$form[0].reset();
-			obj.servs[obj.formUpdateId] = response.data.data;
-
-		});
-
-
+		this.accumulated = Math.round( sum * 100 ) / 100;
 	};
 
-	this.setDeleteData = function (idArray, idServ){
-		this.ServToDelete.name = this.servs[idArray].nomServ + " " + this.servs[idArray].apatServ + " " + this.servs[idArray].amatServ;
-		this.ServToDelete.idServ = idServ;
-		this.ServToDelete.idArray = idArray;
-	};
+	this.init();
 
-	this.sendDeleteServ = function ($event){
-
-		var modal = angular.element($event.target).parent().parent().parent().parent();
-		var url = 'https://ssocial.app/servicio/' + this.ServToDelete.idServ;
-
-		$http.delete(url).then(function(){
-			modal.modal('hide');
-			obj.servs.splice( obj.ServToDelete.idArray, 1 );
-		});
-	};
-
-	this.getServ();
 };

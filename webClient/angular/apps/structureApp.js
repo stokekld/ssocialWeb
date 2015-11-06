@@ -12,6 +12,12 @@ angular
 	.controller('loginController', [ 'formData', '$http', '$location', '$rootScope', loginController])
 	.controller('viewController', ['$location', '$rootScope', viewController])
 	.controller('ipController', ['formData', '$http', ipController])
-	.controller('servicioController', ['formData', '$http', servicioController])
+	.controller('serviciosController', ['formData', '$http', serviciosController])
+	.controller('servicioController', ['formData', '$http', '$interval', servicioController])
 	.controller('tabsAdminController', tabsAdminController)
-	.controller('navController', ['$location', navController]);
+	.controller('navController', ['$location', navController])
+	.filter('reverse', function(){
+		return function(items) {
+			return items.slice().reverse();
+		};
+	});

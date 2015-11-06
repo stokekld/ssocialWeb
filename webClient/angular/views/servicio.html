@@ -1,1 +1,61 @@
-servicio.html
+<div ng-controller="servicioController as servCtrl">
+
+
+	<div class="row">
+		<div class="col-md-2 text-right" id="cronos">
+			<h1>{{ servCtrl.stringTime }}</h1>
+			<div ng-if="servCtrl.isBootable()">
+				<button type="button" class="btn btn-default" ng-click="servCtrl.start()">Iniciar</button>
+			</div>
+			<div ng-if="!servCtrl.isBootable()">
+				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#regAct">Detener</button>
+			</div>
+		</div>
+		<div class="col-md-10">
+
+			<h2 class="text-right">Horas Acumuladas: {{ servCtrl.accumulated }}</h2>
+
+			<table class="table table-hover">
+				<thead>
+					<th style="width:18%;">Inicio</th>
+					<th style="width:10%;">Fin</th>
+					<th style="width:10%;">Horas</th>
+					<th>Actividades</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(key, reg) in servCtrl.registros | reverse">
+						<td>{{ reg.regIni }}</td>
+						<td>{{ reg.regFin }}</td>
+						<td>{{ reg.seconds }}</td>
+						<td>{{ reg.regAct }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="regAct" tabindex="-1" role="dialog" aria-labelledby="regActLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form name="stopForm" ng-submit="servCtrl.stop(stopForm, $event)" novalidate autocomplete="off">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="regActLabel">Modal title</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Actividades</label>
+							<input type="text" class="form-control" name="Actividades" ng-model="servCtrl.formData.regAct" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<input type="submit" class="btn btn-default" value="Enviar" data-loading-text="Enviando...">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
