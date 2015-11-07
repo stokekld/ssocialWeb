@@ -6,6 +6,7 @@
 
 			<li role="presentation" ng-class="{ active : tACtrl.tabActive === 1 }" ng-click="tACtrl.changeTab(1)"><a href="">Ip's</a></li>
 			<li role="presentation" ng-class="{ active : tACtrl.tabActive === 2 }" ng-click="tACtrl.changeTab(2)"><a href="">Servicio</a></li>
+			<li role="presentation" ng-class="{ active : tACtrl.tabActive === 3 }" ng-click="tACtrl.changeTab(3)"><a href="">Validación</a></li>
 		</ul>
 	</div>
 	<div class="col-md-10">
@@ -16,6 +17,9 @@
 				</div>
 				<div ng-if="tACtrl.isValueTab(2)">
 					<div ng-include="'./angular/views/servicios.html'"></div>
+				</div>
+				<div ng-if="tACtrl.isValueTab(3)">
+					<div ng-include="'./angular/views/validacion.html'"></div>
 				</div>
 			</div>
 		</div>

@@ -8,7 +8,19 @@ var servicioController = function(formData, $http, $interval) {
 	this.registros = [];
 	this.accumulated = 0;
 
+	this.nombreServ = "";
+	this.carrearServ = "";
+	this.semestreServ = "";
+
 	this.init = function (){
+
+		$http.get('https://ssocial.app/servicio/current/who').then(function(response){
+			console.log(response);
+			obj.nombreServ = response.data.data.nombre;
+			obj.carrearServ = response.data.data.carrera;
+			obj.semestreServ = response.data.data.semestre;
+
+		});
 
 		$http.get('https://ssocial.app/servicio/current/status').then(function(response){
 
@@ -24,7 +36,6 @@ var servicioController = function(formData, $http, $interval) {
 
 		$http.get('https://ssocial.app/servicio/current/ownregistros').then(function(response){
 
-			console.log(response);
 			var data = response.data.data;
 
 			for ( index in data )
