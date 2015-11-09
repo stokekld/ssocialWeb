@@ -1,2 +1,2 @@
 // AQUI VA LA URL QUE SE USARA
-var appHost = 'localhost/';
+var appHost = 'https://ssocial.app/';
