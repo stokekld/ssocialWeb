@@ -11,7 +11,7 @@ var ipController = function(formData, $http){
 
 
 	this.getIps = function(){
-		$http.get('https://ssocial.app/ip').then(function(response){
+		$http.get(appHost + 'ip').then(function(response){
 
 			var ips = response.data.data; 
 
@@ -30,7 +30,7 @@ var ipController = function(formData, $http){
 	{
 		var modal = angular.element($event.target).parent().parent().parent().parent();
 
-		var url = 'https://ssocial.app/ip/' + this.ipToDelete.id_ipp;
+		var url = appHost + 'ip/' + this.ipToDelete.id_ipp;
 
 		$http.delete(url).then(function(response){
 			modal.modal('hide');
@@ -49,7 +49,7 @@ var ipController = function(formData, $http){
 			return;
 		}
 
-		$http.post('https://ssocial.app/ip', this.formData, { element: angular.element($event.target) }).then(function(response){
+		$http.post(appHost + 'ip', this.formData, { element: angular.element($event.target) }).then(function(response){
 
 			modal.modal('hide');
 			$form[0].reset();

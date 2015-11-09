@@ -12,7 +12,7 @@ var registrosController = function($http){
 
 	this.init = function(){
 		
-		$http.get('https://ssocial.app/registros/novalidados').then(function(response){
+		$http.get(appHost + 'registros/novalidados').then(function(response){
 
 
 			var regs = response.data.data.regNoVal;
@@ -28,7 +28,7 @@ var registrosController = function($http){
 
 		data = {regVal:1};
 		
-		$http.put('https://ssocial.app/servicio/' + idServ + '/registros/' + idReg, data).then(function(response){
+		$http.put(appHost + 'servicio/' + idServ + '/registros/' + idReg, data).then(function(response){
 
 			obj.regs.splice( idArray, 1 );
 
@@ -53,7 +53,7 @@ var registrosController = function($http){
 
 
 
-		$http.delete('https://ssocial.app/servicio/' + obj.toDelete.idServ + '/registros/' + obj.toDelete.idReg).then(function(response){
+		$http.delete(appHost + 'servicio/' + obj.toDelete.idServ + '/registros/' + obj.toDelete.idReg).then(function(response){
 
 			modal.modal('hide');
 			obj.regs.splice( obj.toDelete.idArray, 1 );

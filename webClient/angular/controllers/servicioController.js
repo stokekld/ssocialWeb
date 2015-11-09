@@ -14,7 +14,7 @@ var servicioController = function(formData, $http, $interval) {
 
 	this.init = function (){
 
-		$http.get('https://ssocial.app/servicio/current/who').then(function(response){
+		$http.get(appHost + 'servicio/current/who').then(function(response){
 			console.log(response);
 			obj.nombreServ = response.data.data.nombre;
 			obj.carrearServ = response.data.data.carrera;
@@ -22,7 +22,7 @@ var servicioController = function(formData, $http, $interval) {
 
 		});
 
-		$http.get('https://ssocial.app/servicio/current/status').then(function(response){
+		$http.get(appHost + 'servicio/current/status').then(function(response){
 
 			obj.status = response.data.data.status;
 
@@ -34,7 +34,7 @@ var servicioController = function(formData, $http, $interval) {
 
 		});
 
-		$http.get('https://ssocial.app/servicio/current/ownregistros').then(function(response){
+		$http.get(appHost + 'servicio/current/ownregistros').then(function(response){
 
 			var data = response.data.data;
 
@@ -54,7 +54,7 @@ var servicioController = function(formData, $http, $interval) {
 
 	this.start = function(){
 
-		$http.post('https://ssocial.app/servicio/current/inicio').then(function(response){
+		$http.post(appHost + 'servicio/current/inicio').then(function(response){
 
 			obj.timer.start();
 			obj.status = null;
@@ -76,7 +76,7 @@ var servicioController = function(formData, $http, $interval) {
 			return;
 		}
 
-		$http.post('https://ssocial.app/servicio/current/fin', this.formData, { element: angular.element($event.target) }).then(function(response){
+		$http.post(appHost + 'servicio/current/fin', this.formData, { element: angular.element($event.target) }).then(function(response){
 
 			modal.modal('hide');
 			$form[0].reset();

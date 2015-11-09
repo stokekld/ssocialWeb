@@ -10,7 +10,7 @@ var serviciosController = function (formData, $http){
 	this.servs = [];
 
 	this.getServ = function(){
-		$http.get('https://ssocial.app/servicio').then(function(response){
+		$http.get(appHost + 'servicio').then(function(response){
 
 			var servs = response.data.data; 
 
@@ -33,7 +33,7 @@ var serviciosController = function (formData, $http){
 		};
 
 
-		$http.put('https://ssocial.app/servicio/' + idServ, sendData).then(function(response){
+		$http.put(appHost + 'servicio/' + idServ, sendData).then(function(response){
 
 			obj.servs[idArray].activoServ = newValue;
 
@@ -55,7 +55,7 @@ var serviciosController = function (formData, $http){
 		this.formNewData.activoServ = 1;
 		var modal = $form.parent().parent().parent();
 
-		$http.post('https://ssocial.app/servicio', this.formNewData, { element: angular.element($event.target) }).then(function(response){
+		$http.post(appHost + 'servicio', this.formNewData, { element: angular.element($event.target) }).then(function(response){
 
 			modal.modal('hide');
 			$form[0].reset();
@@ -94,7 +94,7 @@ var serviciosController = function (formData, $http){
 			if ( servNew[prop] !== servOld[prop] )
 				data[prop] = servNew[prop];
 
-		$http.put('https://ssocial.app/servicio/' + this.formUpdateData.idServ, data).then(function(response){
+		$http.put(appHost + 'servicio/' + this.formUpdateData.idServ, data).then(function(response){
 
 			modal.modal('hide');
 			$form[0].reset();
@@ -114,7 +114,7 @@ var serviciosController = function (formData, $http){
 	this.sendDeleteServ = function ($event){
 
 		var modal = angular.element($event.target).parent().parent().parent().parent();
-		var url = 'https://ssocial.app/servicio/' + this.ServToDelete.idServ;
+		var url = appHost + 'servicio/' + this.ServToDelete.idServ;
 
 		$http.delete(url).then(function(){
 			modal.modal('hide');
