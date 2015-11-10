@@ -87,7 +87,8 @@ var servicioController = function(formData, $http, $interval) {
 			var segundos = (registro.seconds/(60*60))*100;
 			registro.seconds = Math.round( segundos ) / 100;
 
-			obj.registros.push(response.data.data);
+			if (registro.regVal == "1")
+				obj.registros.push(response.data.data);
 
 			obj.getAccumulated();
 

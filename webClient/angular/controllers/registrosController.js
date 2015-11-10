@@ -1,4 +1,4 @@
-var registrosController = function($http){
+var registrosController = function(formData, $http){
 
 	obj = this;
 	this.regs = [];
@@ -8,6 +8,16 @@ var registrosController = function($http){
 		regIni: "",
 		regFin: "",
 		regAct: ""
+	};
+	this.toUpdate = {
+		idArray: 0,
+		idServ: 0,
+		idReg: 0,
+		data: {
+			regIni:"",
+			regFin:"",
+			regAct:""
+		}
 	};
 
 	this.init = function(){
@@ -59,6 +69,42 @@ var registrosController = function($http){
 			obj.regs.splice( obj.toDelete.idArray, 1 );
 
 		});
+	};
+
+	this.setUpdate = function(idArray, idServ, idReg){
+
+		this.toUpdate.idArray = idArray;
+		this.toUpdate.idServ = idServ;
+		this.toUpdate.idReg = idReg;
+		this.toUpdate.data.regIni = this.regs[idArray].regIni;
+		this.toUpdate.data.regFin = this.regs[idArray].regFin;
+		this.toUpdate.data.regAct = this.regs[idArray].regAct;
+
+
+	};
+
+	this.sendvalUpdateForm = function(form, $event){
+
+		var $form = angular.element($event.target);
+		var $modal = $form.parent().parent().parent();
+		
+		if (form.$invalid)
+		{
+			formData.handlerErrors(form.$error, $form);
+			return;
+		}
+		$http.put(appHost + 'servicio/' + obj.toUpdate.idServ + '/registros/' + obj.toUpdate.idReg, obj.toUpdate.data).then(function(response){
+
+			$modal.modal('hide');
+
+			var data = response.data.data;
+
+			obj.regs[obj.toUpdate.idArray].regIni = data.regIni;
+			obj.regs[obj.toUpdate.idArray].regFin = data.regFin;
+			obj.regs[obj.toUpdate.idArray].regAct = data.regAct;
+
+		});
+
 	};
 
 	this.init();

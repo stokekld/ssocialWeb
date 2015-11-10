@@ -18,6 +18,7 @@
 						<td>{{reg.regAct}}</td>
 						<td>
 							<button type="button" class="btn btn-success btn-xs" ng-click="regCtrl.val(key, reg.serv.idServ, reg.idReg)">Validar</button>
+							<button type="button" class="btn btn-info btn-xs" title="Actualizar" data-toggle="modal" data-target="#valUpdate" ng-click="regCtrl.setUpdate(key, reg.serv.idServ, reg.idReg)"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
 							<button title="Eliminar" data-target="#delReg" data-toggle="modal" class="btn btn-danger btn-xs" type="button" ng-click="regCtrl.setDelete(key)"><span aria-hidden="true" class="glyphicon glyphicon-remove"></span></button>
 						</td>
 					</tr>
@@ -26,13 +27,45 @@
 		</div>
 	</div>
 
+	<!-- update -->
+	<div class="modal fade" id="valUpdate" tabindex="-1" role="dialog" aria-labelledby="valUpdateLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	    	<form name="valUpdateForm" ng-submit="regCtrl.sendvalUpdateForm(valUpdateForm, $event)" novalidate autocomplete="off">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="valUpdateLabel">Actualizar Actividad</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Inicio</label>
+						<input type="text" class="form-control" name="Inicio" ng-model="regCtrl.toUpdate.data.regIni" ng-pattern="/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/" required>
+					</div>
+					<div class="form-group">
+						<label>Fin</label>
+						<input type="text" class="form-control" name="Fin" ng-model="regCtrl.toUpdate.data.regFin" required ng-pattern="/^\d{2}:\d{2}:\d{2}$/">
+					</div>
+					<div class="form-group">
+						<label>Actividad</label>
+						<input type="text" class="form-control" name="Actividad" ng-model="regCtrl.toUpdate.data.regAct" required>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<input type="submit" class="btn btn-default" value="Enviar" data-loading-text="Enviando...">
+				</div>
+	    	</form>
+	    </div>
+	  </div>
+	</div>
+
 	<!-- delete -->
 	<div class="modal fade" id="delReg" tabindex="-1" role="dialog" aria-labelledby="servDeleteLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="servDeleteLabel">Eliminar Servicio Social</h4>
+	        <h4 class="modal-title" id="servDeleteLabel">Eliminar Actividad</h4>
 	      </div>
 	      <div class="modal-body">
 	        ¿Desea eliminar el siguiente registro? <br> <br>

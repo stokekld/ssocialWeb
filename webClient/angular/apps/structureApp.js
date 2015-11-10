@@ -14,7 +14,7 @@ angular
 	.controller('ipController', ['formData', '$http', ipController])
 	.controller('serviciosController', ['formData', '$http', serviciosController])
 	.controller('servicioController', ['formData', '$http', '$interval', servicioController])
-	.controller('registrosController', ['$http', registrosController])
+	.controller('registrosController', ['formData', '$http', registrosController])
 	.controller('tabsAdminController', tabsAdminController)
 	.controller('navController', ['$location', navController])
 	.filter('reverse', function(){
