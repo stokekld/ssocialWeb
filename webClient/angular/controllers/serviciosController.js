@@ -97,7 +97,6 @@ var serviciosController = function (formData, $http){
 		$http.put(appHost + 'servicio/' + this.formUpdateData.idServ, data).then(function(response){
 
 			modal.modal('hide');
-			$form[0].reset();
 			obj.servs[obj.formUpdateId] = response.data.data;
 
 		});
